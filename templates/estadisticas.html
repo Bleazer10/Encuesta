@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Estadísticas de Evaluación{% endblock %}
+
+{% block layout %}
+  <div class="mb-3">
+    <a href="{% url 'menu_profesor' %}" class="btn btn-outline-secondary">← Regresar al Menú</a>
+  </div>
+
+  <div class="header mb-4">
+    Evaluación del Desempeño Profesoral
+  </div>
+  <div class="container">
+    <h2 class="text-center mb-4">Estadísticas Generales</h2>
+
+    {% if respuestas_totales == 0 %}
+      <div class="alert alert-warning text-center">Aún no hay respuestas registradas.</div>
+    {% else %}
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h4 class="card-title">Total de estudiantes encuestados: <strong>{{ respuestas_totales }}</strong></h4>
+        </div>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h4 class="card-title mb-3">Promedio por pregunta</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Pregunta</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for pregunta, resultado in promedios %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ pregunta }}</td>
+                  <td>{{ resultado }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title">Conclusión General</h4>
+          <p class="lead">El profesor es evaluado como: <strong>{{ conclusion }}</strong></p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+

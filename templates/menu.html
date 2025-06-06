@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Menú Principal{% endblock %}
+
+{% block content %}
+  <div class="text-center">
+    <h2 class="mb-4">Bienvenido</h2>
+    <p class="lead mb-5">Selecciona tu rol para continuar:</p>
+    <div class="d-grid gap-3 col-10 col-md-8 col-lg-6 mx-auto">
+      <a href="{% url 'validar_cedula' %}" class="btn btn-custom-primary btn-lg">
+        Soy Estudiante
+      </a>
+      {% if request.session.profesor_autenticado %}
+        <a href="{% url 'menu_profesor' %}" class="btn btn-custom-info btn-lg">
+          Soy Profesor
+        </a>
+      {% else %}
+        <a href="{% url 'login_profesor' %}" class="btn btn-custom-info btn-lg">
+          Soy Profesor
+        </a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+

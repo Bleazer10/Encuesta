@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Menú del Profesor{% endblock %}
+
+{% block layout %}
+<div class="container text-center mt-5">
+  <h2 class="mb-4">Bienvenido, Profesor</h2>
+  <div class="d-grid gap-3 col-6 mx-auto">
+    <a href="{% url 'ver_respuestas' %}" class="btn btn-primary btn-lg">Ver Respuestas</a>
+    <a href="{% url 'estadisticas_respuestas' %}" class="btn btn-success btn-lg">Ver Estadísticas</a>
+    <a href="{% url 'menu' %}" class="btn btn-warning btn-lg">Menú</a>
+  </div>
+</div>
+{% endblock %}

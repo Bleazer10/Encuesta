@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Respuestas del Profesor{% endblock %}
+
+{% block layout %}
+  <style>
+    .tabla-scroll-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+    }
+
+    .tabla-evaluaciones {
+      min-width: 2500px;
+      font-size: 0.78rem;
+      table-layout: fixed;
+    }
+
+    .tabla-evaluaciones th,
+    .tabla-evaluaciones td {
+      padding: 0.5rem;
+      vertical-align: middle;
+      text-align: center;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .tabla-evaluaciones th {
+      background-color: #e3f2fd;
+      font-weight: 600;
+    }
+
+    .tabla-evaluaciones th.pregunta {
+      font-size: 0.7rem;
+    }
+
+    .tabla-evaluaciones td {
+      background-color: #fff;
+    }
+  </style>
+
+  <div class="container-fluid px-4">
+    <div class="header d-flex justify-content-between align-items-center flex-wrap mb-4">
+      <div class="fs-5 fw-semibold text-white">Evaluación del Desempeño Profesoral</div>
+      <div class="mt-2 mt-md-0 d-flex flex-wrap gap-2">
+        <a href="{% url 'menu_profesor' %}" class="btn btn-light btn-sm">
+          <i class="bi bi-arrow-left"></i> Menú
+        </a>
+        <a href="{% url 'logout_profesor' %}" class="btn btn-danger btn-sm">
+          <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+        </a>
+      </div>
+    </div>
+
+    <div class="card shadow-sm w-100" style="max-width: none;">
+      <div class="card-body py-4 px-3">
+        <h3 class="mb-4 text-center">Respuestas Registradas</h3>
+
+        {% if respuestas %}
+          <div class="tabla-scroll-wrapper">
+            <table class="table table-bordered tabla-evaluaciones">
+              <thead>
+                <tr>
+                  <th>FECHA</th>
+                  {% for pregunta in preguntas %}
+                    <th class="pregunta">{{ forloop.counter }}<br>{{ pregunta }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for r in respuestas %}
+                <tr>
+                  <td>{{ r.fecha|date:"Y-m-d H:i" }}</td>
+                  {% for valor in r.respuestas %}
+                  <td>{{ valor }}</td>
+                  {% endfor %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          {% if page_obj.has_other_pages %}
+            <nav class="mt-4">
+              <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+                {% else %}
+                  <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                  {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                  {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                  {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+                {% else %}
+                  <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+                {% endif %}
+              </ul>
+            </nav>
+          {% endif %}
+        {% else %}
+          <div class="alert alert-info text-center">No hay respuestas aún.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

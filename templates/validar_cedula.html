@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Acceso a la Encuesta{% endblock %}
+
+{% block content %}
+  <div class="mx-auto" style="max-width: 500px;">
+    <div class="card shadow-sm">
+      <div class="card-body py-4 px-4">
+        <h2 class="text-center mb-4">Acceso a la Encuesta</h2>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="cedula" class="form-label">Número de Cédula</label>
+            <input type="text" class="form-control" id="cedula" name="cedula" required />
+          </div>
+          {% if error %}
+          <div class="alert alert-danger text-center">
+            Cédula no autorizada o ya participaste.
+          </div>
+          {% endif %}
+          <div class="d-grid">
+            <button type="submit" class="btn btn-custom-primary">Ingresar</button>
+          </div>
+          <div class="d-grid mt-2">
+            <a href="{% url 'menu' %}" class="btn btn-custom-secondary">Regresar al menú</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

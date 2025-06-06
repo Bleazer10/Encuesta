@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Evaluación del Desempeño Profesoral{% endblock %}
+
+{% block layout %}
+  <style>
+    .pregunta-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pregunta-card .card-body {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pregunta-texto {
+      flex-shrink: 0;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    .opciones {
+      flex-shrink: 0;
+    }
+  </style>
+
+  <div class="header mb-4">
+    Evaluación del Desempeño Profesoral
+  </div>
+
+  <div class="container">
+    <div class="card shadow-sm">
+      <div class="card-body px-4 py-4">
+        <h2 class="text-center mb-4">Evaluación post académica</h2>
+
+        {% if error %}
+          <div class="alert alert-danger text-center">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+          {% csrf_token %}
+          <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for pregunta in preguntas %}
+            <div class="col d-flex">
+              <div class="card shadow-sm w-100 pregunta-card">
+                <div class="card-body px-2 py-3">
+                  <p class="pregunta-texto">{{ forloop.counter }}. {{ pregunta }}</p>
+
+                  <div class="opciones">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="q{{ forloop.counter }}" value="A" required>
+                      <label class="form-check-label">A - Bueno</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="q{{ forloop.counter }}" value="B">
+                      <label class="form-check-label">B - Regular</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="q{{ forloop.counter }}" value="C">
+                      <label class="form-check-label">C - Deficiente</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-custom-primary">Enviar respuestas</button>
+          </div>
+          <div class="d-grid mt-2">
+            <a href="{% url 'menu' %}" class="btn btn-custom-secondary">Cancelar y regresar al menú</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

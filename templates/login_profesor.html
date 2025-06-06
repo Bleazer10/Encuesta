@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingreso Profesor{% endblock %}
+
+{% block content %}
+  <div class="mx-auto" style="max-width: 450px;">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h2 class="text-center mb-4 login-title">
+          <i class="bi bi-person-lock"></i> Ingreso del Profesor
+        </h2>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="username" class="form-label">Usuario</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input type="text" name="username" id="username" class="form-control" required />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" name="password" id="password" class="form-control" required />
+            </div>
+          </div>
+          {% if error %}
+          <div class="alert alert-danger text-center">
+            Usuario o contraseña incorrectos.
+          </div>
+          {% endif %}
+          <div class="d-grid">
+            <button type="submit" class="btn btn-custom-primary">
+              <i class="bi bi-box-arrow-in-right"></i> Ingresar
+            </button>
+          </div>
+          <div class="d-grid mt-2">
+            <a href="{% url 'menu' %}" class="btn btn-custom-secondary">
+              <i class="bi bi-arrow-left"></i> Regresar al menú
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
